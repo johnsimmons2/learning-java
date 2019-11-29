@@ -1,4 +1,35 @@
 # Basics
+## Errors
+While you program you will encounter many errors and issues. Real quick I wanted to let you know, 
+there are two major types of these errors. Semantic Errors and Syntactic Errors. A Syntactic error is
+what you get when you write code that doesn't run and the IDE puts red underlines under it. This means
+if you tried to run the code, it would not even be able to run. A Semantic Error is one where your code
+is written and will work, but it will crash after running and getting to a point. You can also have
+errors where nothing ever breaks, and it looks fine, but you mis-typed somewhere and you aren't getting
+the right result.
+
+Here is an example of a Syntactic Error:
+```$xslt
+int q = 10
+```
+Whats wrong here? No semi-colon. This will not compile. There are plenty of other examples as well, you will
+most likely create many while you are learning too!
+
+Here is a Semantic Error:
+```$xslt
+public static int someMethod() {
+    int x;
+    int y = 0;
+    return y + x;
+}
+```
+The compiler wont crash when you try to run this, but if you call this method, it will crash then. Why?
+Because we are trying to use the value of x when it has no assigned value.
+
+Keep your eyes out for these errors and be careful. If the program crashes, its usually decently easy to figure
+out what you did wrong, but if it keeps working and your results are just wrong; thats where it can get
+very tricky.
+
 ## Data Types
 ### Initialization and Declaration
 Variables come in many forms in Java, and are essential to doing anything at all.
@@ -256,9 +287,10 @@ You should now be ready for the assignments.
 
 # Assignment
 ##### Adding methods
-1) The current code does not work. Fix it
+1) The method "myMethod" does not work. Fix it
 2) Add a new method that takes as input 2 numbers and returns their sum.
 3) Add a new method that takes as input 2 numbers and returns the larger one.
+4) Look up arrays, then create a method that takes as input an array of integers and returns the average value. (_hint: you need to look up for loops in Java_)
 ##### The Fibonacci Sequence
 This assignment is going to force you to use *recursion*. Recursion is when a method named 'recursion' you create calls itself.
 First, try creating a method that takes as input 2 numbers x and y, then, it returns immediately
