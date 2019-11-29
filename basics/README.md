@@ -50,6 +50,7 @@ Here's a few,
 - float
 - double
 - long
+- boolean
 
 You will notice that `int`, `long`, and `short` seem to be the same; and `double` and `float` seem to be the same.
 Whats the difference? Well a `long` holds a 64 bit integer (thats huge), `int` of course holds 32 bits, and `short` can only hold
@@ -65,6 +66,7 @@ These types are called primitive
 - char
 - float
 - double
+- boolean
 - long
 
 They are called primitive because they hold the most basic and primitive of values and building blocks.
@@ -165,8 +167,136 @@ public static int myMethod(int input)
 
 You can name the input anything you want, just like you can name any variable anything (also it is standard
 practice to make the first letter of each method lower case). Now we are receiving an integer into the method.
-We can input any type, primitive or not, and in any amount.
+We can input any type, primitive or not, and in any amount. Ok, so now all we have to do is tell the method how it
+shall behave. We do this with a code block. Notice earlier the curly braces around the main method? This is a code
+block. Everything inside is executed from beginning to end sequentially. So, lets write our method that takes
+in a number, multiplies it by 10, and returns it.
+```$xslt
+public static int myMethod(int input) {
+    int result = input * 10;
+    return result;
+}
+```
 
+Remember to be putting semi-colons at the end of every line. Unlike languages like Python where the indentation and whitespace
+matters, Java doesn't care how you format your code and is reliant on programmers putting semi-colons at
+the end to tell Java where each statement ends.
 
-Try declaring a new method
-that does something basic like takes in two numbers and returns their sum.
+In this method we have created a new variable result, initialized it to the input times 10 (asterisk is multiplication)
+and returned the result. The `return` keyword tells Java to stop running the method and send the output on that line
+to whoever told it to run. No matter what you put under a return statement, once something is returned, the method is done.
+
+## Conditionals
+A conditional, like an `if` statement, is necessary for creating meaningful logic in a program. A conditional has
+3 core parts, a declaration such as `if`, the _clauses_, and `else` statements. The clauses are the logic itself,
+when the clause is met, carry out the following code. The else statements tell the code what to do
+when the code is not true. You can nest these and chain them as needed, such as an `if else` where we say if the
+first condition was not true, check this other thing and go on.
+
+A clause can be made up of many conditions, or sub clauses. When we are assigning value to a variable, we use `=`.
+When we are testing the value of something, we use `==`. This is how the compiler can distinguish between assignment, and comparison.
+If I were to do `x == 10` I am asking the question, is x equal to 10? If I were to put `x != 10`, I am asking the
+question, is x NOT equal to 10?
+
+Try the following:
+```$xslt
+int x = 10;
+System.out.println(x == 10);
+System.out.println(x != 10);
+System.out.println(x == 300);
+System.out.println(x != 75);
+```
+If you run this code, you will see
+```$xslt
+true
+false
+false
+true
+```
+First it is true because x is equal to 10, then it is false because x is not NOT equal to 10, then false again because x is not 300, 
+and true because x is NOT 75.
+
+There is more than just `==` and `!=` though, we can also use the following:
+- `>` greater than
+- `>=` greater than or equal to
+- `<` less than
+- `<=` less than or equal to
+
+To combine multiple clauses, we can use
+- `&&` and
+- `||` or
+
+Combining the above knowledge, we can turn this english sentence into code: "If X is greater than Y and X is less than 100, or X is greater than Y and Y is less than 0."
+
+This is meaningless garbage of course, but we can make an expression out of it. It would be as follows:
+```$xslt
+if (x > y && (x < 100 || y < 0)) {
+```
+
+For more advanced understanding on how this works when applying the `!` negation operator (causes the opposite of any clause,
+hence `!=` means NOT equal) Google "DeMorgan's Law". If you understand this, you will be golden in all
+conditional logic.
+
+Remember the boolean type? We never talked about it, yet it was listed above. A boolean is either true or false.
+You can think of it as a 1 bit number, either 1 or 0. You can assign to booleans like any other data type: `boolean value = true;`
+or you can assign actual clauses to it like this `boolean clause = x == 10;`. The boolean clause will be
+true only if x is equal to 10.
+
+Consider the following example:
+```$xslt
+if (x == 10 && y > 0) {
+    System.out.println("X is equal to 10 while Y is positive!");
+} else if (x != 10 && y > 0) {
+    System.out.println("X is not equal to 10, but Y is still positive!");
+} else {
+    System.out.println("Well, X may or may not be equal to 10, but Y is not poisitive!!!");
+}
+```
+You should now be ready for the assignments.
+
+# Assignment
+##### Adding methods
+1) The current code does not work. Fix it
+2) Add a new method that takes as input 2 numbers and returns their sum.
+3) Add a new method that takes as input 2 numbers and returns the larger one.
+##### The Fibonacci Sequence
+This assignment is going to force you to use *recursion*. Recursion is when a method named 'recursion' you create calls itself.
+First, try creating a method that takes as input 2 numbers x and y, then, it returns immediately
+x + recursion(x + 1, y - 1). What happens? Will this ever finish running? 
+
+The answer should be, no. What is going on here? This method is trying to return its result, but its
+result depends on calling itself. Try writing on paper what happens when you call recursion(1, 1).
+First it will try to return 1 + recursion(2, 0), then what? And then what?
+
+How can we make it so this recursion does not loop forever and crash the program?
+
+We are going to use conditionals. Add a condition where at the beginning of the method, if `y` is equal
+to 0, return 1. Then, run and print the results of `recursion(1, 1)`, try other input too.
+
+Once you understand why this works and what it means, try the following problem (without Googling!)
+
+*The Fibonacci Sequence* is a sequence of numbers that increase exponentially. It is defined recursively,
+where each number in the sequence is equal to the sum of the two previous numbers. Let the fibonacci
+sequence be described by some function f(x). Hence, f(x) = f(x - 1) + f(x - 2); where f(0) = 0 and f(1) = 1.
+
+Based on this information, we can deduce the following sequence:
+- f(0) = 0
+- f(1) = 1
+- f(2) = 1
+- f(3) = 2
+- f(4) = 3
+- f(5) = 5
+- f(6) = 8
+- f(7) = 13 ...
+
+and so on. As you can see, the fibonacci sequence function only takes as input 1 number, and outputs 1 number. **Create a method
+that calculates the fibonacci sequence number of any given value by using recursion.** Next, run this method and output the
+10th fibonacci number. Then try for higher numbers. How high can you go before it runs too slowly or doesn't complete?
+
+_Hints:_ 
+
+1) Recall that recursion requires a method calling itself. Do you see anywhere in the definition of f(x)
+where the function f is calling itself? 
+
+2) Remember how when we added a conditional to `recursion` method earlier that it was able to terminate and give
+results? What kind of conditionals could we add based on what you know of the first few values of the fibonacci sequence?
