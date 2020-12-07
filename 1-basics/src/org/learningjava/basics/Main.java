@@ -18,10 +18,6 @@ public class Main {
     // Add your new methods below here
 
 
-
-
-
-
     // Add your new methods above here
 
     /**
@@ -45,12 +41,12 @@ public class Main {
         System.out.println(first + " was not divisible by" + second "Trying again...");
     }
 
-
     /**
      * The main method. Why do those numbers have underscores? Well, thats just to make it more readable. You can't use
      * commas in numbers but you can use underscores. What about the 'L'? Google it!
      */
     public static void main(String[] args) {
         System.out.println(myMethod(1_000_000_000_000L, 987L)); // Don't change this, just make it work!
+		System.out.printf("The 6th fibonacci number is: %s.", fibonacci(7));
     }
 }
