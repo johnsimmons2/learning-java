@@ -17,14 +17,16 @@ most likely create many while you are learning too!
 
 Here is a Semantic Error:
 ```$xslt
-public static int someMethod() {
-    int x;
-    int y = 0;
-    return y + x;
+public static double someMethod(double x) {
+    int y = x;
+    return y + 10;
 }
 ```
-The compiler wont crash when you try to run this, but if you call this method, it will crash then. Why?
-Because we are trying to use the value of x when it has no assigned value.
+The compiler wont crash when you try to run this (note: some may in fact error out on this example), but if you call this method, it may not behave as you expect.
+Come back to this example after this lesson and see if it makes sense what it does. For now, the intention was to take the input "x" and output x + 10. However,
+the type of x and the type the method outputs is "double" - which means it is a value with decimals. If you were able to run this method, you would see that the resulting value
+does not have decimals. This is the semantic error. The intent was not followed through with the code due to the fault of whoever wrote it. Some errors are just code that does not
+behave as intended.
 
 Keep your eyes out for these errors and be careful. If the program crashes, its usually decently easy to figure
 out what you did wrong, but if it keeps working and your results are just wrong; thats where it can get
@@ -39,6 +41,7 @@ calculations or save data, really anything at all. There are two parts to creati
 
 *Declaraing* a variable is when you tell the compiler to allocate space for the variable. You are telling
 the compiler, hey, prepare yourself because I am going to fill this area of memory with something, so you can use it later.
+Its like saying, "there is a house on the street X" but without describing the house or saying what is inside it. Its just preparing the conversation for the house and saying what street its on.
 
 *Initializing* is where you tell the compiler what value to give this memory location. Without 
 initialization a variable cannot be used. For example, `int x` is declaring the integer x. If
@@ -53,7 +56,7 @@ Note, that if I do this
 int x;
 x = 12;
 ```
-I did not set the value of `x` right after creating `x`, I did it a line later, but this is still initialization.
+I did not set the value of `x` right after creating `x`, I did it a line later, but this is still initialization. So long as everything has a set value before use, everything is golden.
 
 ### Types
 You saw earlier that I used `int`. This means integer; this is any value, negative or positive, that is a whole
@@ -66,10 +69,13 @@ Try this out in Java. Create an integer with the value of 2,147,483,647 and add 
 
 _Why is this the result?_
 
+*Q1:*
 Try adding 1 to `01111111111111111111111111111111` using binary addition, what do you get?
 Shouldn't the result be larger? 
 
 _Hint: Google "2's complement"_
+
+
 
 Ok, so what other types do we have besides `int`?
 
@@ -83,13 +89,19 @@ Here's a few,
 - long
 - boolean
 
-You will notice that `int`, `long`, and `short` seem to be the same; and `double` and `float` seem to be the same.
+You will notice, if you try to use these types in code, that `int`, `long`, and `short` seem to be the same (whole numbers); and that `double` and `float` seem to be the same.
 Whats the difference? Well a `long` holds a 64 bit integer (thats huge), `int` of course holds 32 bits, and `short` can only hold
-a value up to 16 bits. Play around with them and see how drastic those size differences really are.
+a value up to 16 bits. Play around with them and see how drastic those size differences really are. Long values are great for when you need extremely large numbers, and short numbers are good when you are going to be
+using a ridiculous amount of numbers but none of them are that big - helps you save space on the machine.
 
 Doubles and floats can hold values with decimal points. Their difference comes down to that a double holds more
-information and is more accurate, but a float holds only as much information as it needs to be correct. This is where
-its name comes from; floating point value. Google these if you want to know more differences.
+information and is more accurate, but a float holds only as much information as it needs to be correct by estimate. This is where
+its name comes from; floating point value. Google these if you want to know more differences. For the most part, floats will do whatever you need to do, with miniscule irregularities. However, precision are not their strong suit.
+
+Another interesting thing about floats and doubles is this: floats are 32 bit numbers and doubles are 64 bit numbers. Because of this and how doubles are encoded,
+doubles can hold a far larger range than longs can, similarly with floats and ints. Doubles are not perfectly precise either, but because of their size they are often much more
+precise than floats. Doubles and floats use exponents and mantissas to hold representations of enormous numbers and decimals.
+Here is an excellent page with far more information about them here: https://cs.fit.edu/~ryan/java/language/java-data.html
 
 ### Primitive Types
 These types are called primitive
@@ -100,22 +112,75 @@ These types are called primitive
 - boolean
 - long
 
-They are called primitive because they hold the most basic and primitive of values and building blocks.
+They are called primitive because they hold the most basic and primitive of values and building blocks. Think of these as the individual lego bricks on
+a set, they have no subcomponents you can access, but they are used to create more complex things down the road.
 In the next subsection I am going to teach you the access operator, so come back here when you've read it 
 if this next part doesn't make sense.
 
+
+### Operators
+Operators are the tools used to modify variables or perform actions. In math, when adding, dividing, multiplying, or subtracting you are just using operators.
+
+Valid operators are things such as 
+- Add: +
+- Subtract: -
+- Multiply: *
+- Divide: /
+- Left shift: <<
+- Right shift: >>
+- Unsigned right shift: >>>
+- Bitwise AND: &
+- Bitwise XOR: ^
+- Bitwise OR: |
+- Access: .
+
+The first 4 are straight forward, just mathematical.
+
+The next 6 are bitwise operators. Since numbers are just bits, we can manipulate the bits directly to do whatever we want. The left shift, shifts the bits over
+the number of times specified, same as the right shift. The unsigned shift however, ignores the sign of the number... Lets use an example.
+(_Google 2s complement if this does not make enough sense_)
+Lets say this following number is X, if you calculate this out you will see it is equal to -50.
+1111 1111 1100 1110
+
+If we shift the bits over to the right by 1, the result is the following:
+X >> 1 = 1111 1111 1110 0111 = -25 (Notice how shifting one bit doubled the value)
+
+Notice that the last bit was a 0, but now its a 1, and on the far right, there is still a 1. This is the _signed_ right shift operator. The front bit
+is always the sign of the number. 1 = negative, 0 = positive. 2s complement, again.
+
+However if we use the *un*signed right shift operator we get this:
+X >> 1 = 0111 1111 1110 0111 = 32,743
+
+The far left bit became a 0 instead of another 1. The unsigned shift operator fills using the left-most bit, the unsigned always uses 0.
+
+The OR, XOR, and AND operators are very simple. Lets just use a 4 bit number for these. These compare each bit in a row with the input bit and performs
+an operation on it, and produces a number with the same amount of bits using this operator.
+- OR: returns 1 if either bit is a 1.
+- XOR: returns a 1 only if one of the bits is a 1, but not both.
+- AND: returns a 1 only if both bits are 1.
+
+examples:
+0101 | 1101 = 1101
+0101 ^ 1101 = 1000
+0101 & 1101 = 0101
+
+The access operator is probably going to be the far most used operator. It lets you access whatever is inside of that given object.
+Say you have a folder of pictures, one is a cat, one is a dog, one is some delicious ramen you made at home, and they are named "dog", "cat", "deliciousRamen" respectively.
+If you wanted to access these pictures from the folder the Java way would be to do something like `folder.deliciousRamen`.
 
 Try using the access operator (just a period `.`) on any initialized primitive type. When you are using an IDE
 it will automatically detect any data members and function members of that object when you use the access operator
 and list all the available options of what you can do or manipulate. You'll notice on the primitive types, nothing comes up!
 This is because primitive types hold only that basic data. They have no functionality, no secondary abilities, 
-no other value. An integer is just an integer, nothing more. Think of primitives as being as close to Algebra as 
-programming gets. When you say x = 5 in algebra, you know that x is a number and doesn't do anything on its own.
+no other value. An integer is just an integer, nothing more. An object is to the folder example above as a primitive is to a notecard with something sharpie'd on it.
+
+Think of primitives as being as close to Algebra as programming gets. When you say x = 5 in algebra, you know that x is a number and doesn't do anything on its own.
 Now in Geometry when I say ABC is a triangle, I know a few things; I know triangles have height, edge lengths, area, surface area, 
 and etc. A triangle would be an object, and in this case, x would be a primitive.
 
 If primitives do not make sense yet, thats ok. Try playing around with them. As you learn to understand objects you will
 understand primitives.
+
 ### Objects
 Objects are the bread and butter of Java and OOP (Object Oriented Programming). OOP is the number one paradigm of
 programming to date. OOP is not the only style, but its the most popular and the one that will help the most
