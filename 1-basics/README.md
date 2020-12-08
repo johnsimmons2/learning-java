@@ -352,23 +352,37 @@ You should now be ready for the assignments.
 
 # Assignment
 ##### Adding methods
-1) The method "myMethod" does not work. Fix it
-2) Add a new method that takes as input 2 numbers and returns their sum.
-3) Add a new method that takes as input 2 numbers and returns the larger one.
-4) Look up arrays, then create a method that takes as input an array of integers and returns the average value. (_hint: you need to look up for loops in Java_)
+a) The method "myMethod" in the attached code does not work. Fix it
+b) Add a new method that takes as input 2 numbers and returns their sum.
+c) Add a new method that takes as input 2 numbers and returns the larger one.
+d) Look up arrays, then create a method that takes as input an array of integers and returns the average value. (_hint: you need to look up for loops in Java_)\
 ##### The Fibonacci Sequence
-This assignment is going to force you to use *recursion*. Recursion is when a method named 'recursion' you create calls itself.
-First, try creating a method that takes as input 2 numbers x and y, then, it returns immediately
+This assignment is going to force you to use *recursion*. Recursion is when a method calls itself.
+
+We know how to call a method to get output back, but usually from what we have seen the method ends with `return something`, but what if what we want to return requires multiple steps of calculation? (See, the Fibonacci Sequence...) Well, you will have to return a method call! Hold onto this thought while you read the explanation for Fibonacci Sequence.
+
+Heres an example. What if we made a method called `recursion` that takes as input 2 numbers x and y, then, it returns immediately
 x + recursion(x + 1, y - 1). What happens? Will this ever finish running? 
 
 The answer should be, no. What is going on here? This method is trying to return its result, but its
-result depends on calling itself. Try writing on paper what happens when you call recursion(1, 1).
-First it will try to return 1 + recursion(2, 0), then what? And then what?
+result depends on calling itself. Try writing on paper what happens when you call recursion(1, 1) logically.
+First it will try to `return 1 + recursion(2, 0)`, then what? And then what? Is there any combination of numbers that will get the program to stop? (Hint: _no! One number just gets bigger and one just keeps getting smaller. What happens when a number hits the max or min for that data type? Well, it wraps around, right? You would know if you looked up integer overflow and 2s complement! So this will never end._)
 
-How can we make it so this recursion does not loop forever and crash the program?
+How can we make it so this recursion does not loop forever and crash the program, or potentially computer?
 
 We are going to use conditionals. Add a condition where at the beginning of the method, if `y` is equal
 to 0, return 1. Then, run and print the results of `recursion(1, 1)`, try other input too.
+
+Basically, we first check if the input reaches some terminal condition, and if it does, we return a `static` output rather than a `dynamic` one.
+An example program for getting the factorial of a number (such as `5! = 5 * 4 * 3 * 2 * 1`) is as follows:
+```
+public static int factorial(int factor) {
+    if (factor == 1) {
+        return 1;
+    }
+    return factor * factorial(factor - 1);
+}
+```
 
 Once you understand why this works and what it means, try the following problem (without Googling!)
 
@@ -392,8 +406,8 @@ that calculates the fibonacci sequence number of any given value by using recurs
 
 _Hints:_ 
 
-1) Recall that recursion requires a method calling itself. Do you see anywhere in the definition of f(x)
-where the function f is calling itself? 
+1) Recall that recursion requires a method calling itself. Do you see anywhere in the definition of `f(x)`
+where the function `f` is calling itself? 
 
 2) Remember how when we added a conditional to `recursion` method earlier that it was able to terminate and give
 results? What kind of conditionals could we add based on what you know of the first few values of the fibonacci sequence?
